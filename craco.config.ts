@@ -19,7 +19,7 @@ const cracoConfig: CracoConfig = {
           ...(webpackConfig?.resolve?.fallback ?? {}),
           assert: require.resolve('assert/'),
           buffer: require.resolve('buffer/'),
-          // crypto: require.resolve('crypto-browserify'),
+          crypto: require.resolve('crypto-browserify'),
           // events: require.resolve('events/'),
           http: require.resolve('stream-http'),
           https: require.resolve('https-browserify'),

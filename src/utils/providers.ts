@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
-/* eslint-disable import/prefer-default-export */
 import WalletConnect from "@walletconnect/web3-provider";
 import { SecretType } from "@venly/connect";
 import { Venly } from "@venly/web3-provider";
@@ -15,18 +13,18 @@ export const providerOptions = {
       rpc: { [chainId]: rpcUrl },
     },
   },
-  // venly: {
-  //   package: Venly, // required
-  //   options: {
-  //     clientId: 'OMNINFTMarketplace', // optional, production by default
-  //     environment: 'staging',
-  //     skipAuthentication: false,
-  //     signMethod: 'POPUP',
-  //     authenticationOptions: {},
-  //     secretType: SecretType.BSC, // required
-  //     // pollingInterval: 15000,
-  //   },
-  // },
+  venly: {
+    package: Venly, // required
+    options: {
+      // clientId: 'testaccount', // optional, production by default
+      clientId: "OMNINFTMarketplace", // optional, production by default
+      environment: "staging",
+      skipAuthentication: false,
+      signMethod: "POPUP",
+      authenticationOptions: {},
+      secretType: SecretType.BSC, // required
+    },
+  },
 };
 
 export interface IAssetData {

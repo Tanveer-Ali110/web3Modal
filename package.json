@@ -16,12 +16,14 @@
     "@venly/web3-provider": "^0.33.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "assert": "^2.0.0",
+    "crypto-browserify": "^3.12.0",
     "eth-chains": "^1.0.0",
     "https-browserify": "^1.0.0",
     "lodash": "^4.17.21",
     "os-browserify": "^0.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-lazy-ssr": "^0.2.4",
     "react-redux": "^8.0.5",
     "react-scripts": "5.0.1",
     "stream-browserify": "^3.0.0",
@@ -34,8 +36,8 @@
     "web3modal": "^1.9.10"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "craco --max_old_space_size=4096 start ",
+    "build": "craco --max_old_space_size=4096 build",
     "test": "craco test",
     "eject": "craco eject"
   },
