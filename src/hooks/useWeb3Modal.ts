@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import Web3Modal from "web3modal";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { Web3Provider } from "@ethersproject/providers";
-import { providerOptions } from "utils/providers";
+import { providerOptions } from "utils/walletProviders";
 import { AppDispatch, RootState } from "state/store";
 import {
   accountChange,
@@ -17,13 +17,9 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const useWeb3Modal = () => {
-  // const [web3Modal,setWeb3Modal]= useState<any>()
   const [provider, setProvider] = useState<any>();
   const dispatch = useDispatch();
-
   const logout = useLogout();
-
-  // const providerOptions = {};
 
   const web3Modal = new Web3Modal({
     // network: "testnet",
@@ -31,7 +27,7 @@ export const useWeb3Modal = () => {
     providerOptions, // required
   });
 
-  const connectWallets = async () => {
+  const connectWallets = useCallback(async () => {
     try {
       const providers = await web3Modal.connect();
       setProvider(providers);
@@ -47,7 +43,7 @@ export const useWeb3Modal = () => {
       web3Modal.clearCachedProvider();
       dispatch(removeCache());
     }
-  };
+  }, [dispatch, web3Modal]);
 
   const disconnect = useCallback(async () => {
     await web3Modal.clearCachedProvider();
@@ -65,13 +61,11 @@ export const useWeb3Modal = () => {
   useEffect(() => {
     if (provider && provider?.on) {
       const handleAccountsChanged = (accounts: string[]) => {
-        // connectWallets()
         dispatch(accountChange({ accounts }));
       };
       const handleChainChanged = async () => {
         const library = new Web3Provider(provider);
         const { chainId } = await library.getNetwork();
-        // connectWallets()
         dispatch(networkChange({ chainId }));
       };
 
@@ -93,7 +87,7 @@ export const useWeb3Modal = () => {
     }
   }, [provider]);
 
-  return { connectWallets ,disconnect};
+  return { connectWallets, disconnect };
 };
 
 export const useWeb3ModalProvider = () => {
