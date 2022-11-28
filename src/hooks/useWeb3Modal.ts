@@ -46,7 +46,7 @@ export const useWeb3Modal = () => {
   }, [dispatch, web3Modal]);
 
   const disconnect = useCallback(async () => {
-    await web3Modal.clearCachedProvider();
+    web3Modal.clearCachedProvider();
     setProvider(null);
     // deactivate()
     dispatch(removeCache());

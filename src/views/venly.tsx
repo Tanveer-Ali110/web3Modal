@@ -1,8 +1,7 @@
 import React from 'react'
 import { useWeb3Modal, useWeb3ModalProvider } from 'hooks/useWeb3Modal'
 import { useLoggedInUser, useLogin } from 'state/hooks'
-import Web3Modal from "web3modal";
-import { Web3Provider } from '@ethersproject/providers';
+
 
 const VenlyWallet: React.FC = () => {
   const { connectWallets, disconnect } = useWeb3Modal()
@@ -30,7 +29,6 @@ const VenlyWallet: React.FC = () => {
           connect
         </button>
       )}
-      test
     </div>
   )
 }
