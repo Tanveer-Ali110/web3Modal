@@ -1,13 +1,22 @@
 import {
-  BaseContract,
   Contract,
   ContractInterface,
 } from "@ethersproject/contracts";
 import address from "config/contract/address";
-import abi from "config/contract/abi.json";
+import contractAbi from "config/contract/abi.json";
 import { Signer } from "@ethersproject/abstract-signer";
 import { Web3Provider } from "@ethersproject/providers";
 
-export const getContract = (signerOrProvider: Web3Provider | Signer) => {
-  return new Contract(address.contract[97], abi, signerOrProvider);
+const getContract = (
+  address: string,
+  abi: ContractInterface,
+  signerOrProvider: Web3Provider | Signer
+) => {
+  return new Contract(address, abi, signerOrProvider);
+};
+
+export const getStorageContract = (
+  signerOrProvider?: Web3Provider | Signer
+) => {
+  return getContract(address.contract[97], contractAbi, signerOrProvider);
 };

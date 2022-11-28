@@ -1,6 +1,6 @@
 import { Abi } from "config/contract/types";
 import { useMemo } from "react";
-import { getContract } from "utils/contractHelper";
+import { getStorageContract } from "utils/contractHelper";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
 
 export const useSigner = () => {
@@ -9,7 +9,7 @@ export const useSigner = () => {
   return signer ?? library;
 };
 
-export const useContract = () => {
+export const useStorageContract = () => {
   const signer = useSigner();
-  return useMemo(() => getContract(signer), [signer]) as Abi;
+  return useMemo(() => getStorageContract(signer), [signer]) as Abi;
 };

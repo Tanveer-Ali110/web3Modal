@@ -4,16 +4,16 @@ import './App.css';
 import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
 import { useLoggedInUser } from 'state/hooks';
-import { useContract } from 'hooks/useContract';
+import { useStorageContract } from 'hooks/useContract';
 
 function App() {
 
   const [input, setInput] = useState<number>()
   const { account } = useWeb3ModalProvider()
   const { accessToken } = useLoggedInUser()
-  const contract = useContract()
+  const contract = useStorageContract()
 
-  const handleFunction = useCallback(async (event: any) => {
+  const handleFunction = useCallback(async () => {
 
     try {
       console.log('start')
@@ -28,7 +28,6 @@ function App() {
   }, [contract, input])
 
   const handleFunction1 = useCallback(async (event: any) => {
-    console.log('start')
     const tx = await contract.store1(input)
     const result = await tx.wait()
     console.log("result", result)
