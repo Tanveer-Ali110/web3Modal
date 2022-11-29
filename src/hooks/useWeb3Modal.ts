@@ -12,6 +12,7 @@ import {
   networkChange,
 } from "state/web3Modal";
 import { useLogout } from "state/hooks";
+import { getNode } from "utils/getRpcUrl";
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -91,9 +92,10 @@ export const useWeb3Modal = () => {
 };
 
 export const useWeb3ModalProvider = () => {
+  const web3NoAccount = getNode();
   const { provider, library, account, chainId, active } = useAppSelector(
     (state) => state.web3Modal
   );
 
-  return { provider, library, account, chainId, active };
+  return { provider, library, web3NoAccount, account, chainId, active };
 };

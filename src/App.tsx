@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import VenlyWallet from 'views/venly';
@@ -34,12 +34,17 @@ function App() {
     console.log('end')
   }, [contract, input])
 
-  const retrieve = async (event: any) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const retrieve = async (event?: any) => {
     console.log('start')
     const result = await contract.retrieve()
     console.log("result", result.toNumber())
     console.log('end')
   }
+
+  useEffect(() => {
+    retrieve()
+  }, [account, retrieve])
 
   return (
     <div className="App">
