@@ -31,17 +31,17 @@ export const web3ModalSlice = createSlice({
         providers: any
         librarys: Web3Provider
         accounts: string[]
-        network: Network
+        chainId: number
       }>,
     ) => {
-      const { providers, librarys, accounts, network } = action.payload
+      const { providers, librarys, accounts, chainId } = action.payload
       return {
         ...state,
         active: true,
         provider: providers,
         library: librarys,
         account: accounts[0],
-        chainId: network.chainId,
+        chainId,
         isLoading: false,
       }
     },

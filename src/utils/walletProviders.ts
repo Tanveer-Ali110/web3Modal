@@ -1,5 +1,5 @@
 import WalletConnect from "@walletconnect/web3-provider";
-import { SecretType } from "@venly/connect";
+import { SecretType, WindowMode } from "@venly/connect";
 import { Venly } from "@venly/web3-provider";
 import getNodeUrl from "./getRpcUrl";
 
@@ -16,11 +16,11 @@ export const providerOptions = {
   venly: {
     package: Venly, // required
     options: {
-      // clientId: 'testaccount', // optional, production by default
-      clientId: "OMNINFTMarketplace", // optional, production by default
+      clientId: 'Arketype', // optional, production by default
+      // clientId: "OMNINFTMarketplace", // optional, production by default
       environment: "staging",
       skipAuthentication: false,
-      signMethod: "POPUP",
+      windowMode: WindowMode.POPUP,
       authenticationOptions: {},
       secretType: SecretType.BSC, // required
     },

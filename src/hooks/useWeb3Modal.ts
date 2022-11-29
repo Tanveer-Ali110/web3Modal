@@ -13,6 +13,8 @@ import {
 } from "state/web3Modal";
 import { useLogout } from "state/hooks";
 import { getNode } from "utils/getRpcUrl";
+import { VenlyConnect } from "@venly/connect";
+import { switchOrAddNetwork } from "utils/ethereumRequest";
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -30,16 +32,24 @@ export const useWeb3Modal = () => {
 
   const connectWallets = useCallback(async () => {
     try {
+      const supportedChainID = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
       const providers = await web3Modal.connect();
       setProvider(providers);
       const librarys = new Web3Provider(providers);
       const accounts = await librarys.listAccounts();
-      const network = await librarys.getNetwork();
-      if (accounts.length && network)
+      const { chainId } = await librarys.getNetwork();
+      console.log("network", chainId);
+      if (chainId !== supportedChainID) {
+        const isSetUp = await switchOrAddNetwork();
         dispatch(
-          loadWebb3ModalSucceeded({ providers, librarys, accounts, network })
+          loadWebb3ModalSucceeded({ providers, librarys, accounts, chainId:supportedChainID })
         );
-      else web3Modal.clearCachedProvider();
+      }
+      if (accounts.length && chainId) {
+        dispatch(
+          loadWebb3ModalSucceeded({ providers, librarys, accounts, chainId })
+        );
+      } else web3Modal.clearCachedProvider();
     } catch {
       web3Modal.clearCachedProvider();
       dispatch(removeCache());
