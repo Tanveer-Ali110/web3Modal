@@ -6,25 +6,30 @@ import getNodeUrl from "./getRpcUrl";
 const rpcUrl = getNodeUrl();
 const chainId = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
 export const providerOptions = {
+  injected: {
+    package: null,
+    chainId:97
+  },
   walletconnect: {
     package: WalletConnect,
     options: {
       // infuraId: process.env.INFURA_KEY,
+      network: 'bsc',
       rpc: { [chainId]: rpcUrl },
     },
   },
-  venly: {
-    package: Venly, // required
-    options: {
-      clientId: 'Arketype', // optional, production by default
-      // clientId: "OMNINFTMarketplace", // optional, production by default
-      environment: "staging",
-      skipAuthentication: false,
-      windowMode: WindowMode.POPUP,
-      authenticationOptions: {},
-      secretType: SecretType.BSC, // required
-    },
-  },
+  // venly: {
+  //   package: Venly, // required
+  //   options: {
+  //     clientId: 'Arketype', // optional, production by default
+  //     // clientId: "OMNINFTMarketplace", // optional, production by default
+  //     environment: "staging",
+  //     skipAuthentication: false,
+  //     windowMode: WindowMode.POPUP,
+  //     authenticationOptions: {},
+  //     secretType: SecretType.BSC, // required
+  //   },
+  // },
 };
 
 export interface IAssetData {

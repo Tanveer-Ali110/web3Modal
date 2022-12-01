@@ -4,7 +4,7 @@ import { useLoggedInUser, useLogin } from 'state/hooks'
 
 
 const VenlyWallet: React.FC = () => {
-  const { connectWallets, disconnect } = useWeb3Modal()
+  const { connect, disconnect } = useWeb3Modal()
 
   const { account } = useWeb3ModalProvider()
   const { login } = useLogin()
@@ -25,7 +25,7 @@ const VenlyWallet: React.FC = () => {
           )}
         </div>
       ) : (
-        <button type="button" onClick={connectWallets}>
+        <button type="button" onClick={connect}>
           connect
         </button>
       )}

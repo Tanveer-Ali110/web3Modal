@@ -3,11 +3,12 @@ import logo from './logo.svg';
 import './App.css';
 import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
-import { useLoggedInUser } from 'state/hooks';
+import { useCheckLoginLogout, useLoggedInUser } from 'state/hooks';
 import { useStorageContract } from 'hooks/useContract';
 
 function App() {
 
+  useCheckLoginLogout()
   const [input, setInput] = useState<number>()
   const { account } = useWeb3ModalProvider()
   const { accessToken } = useLoggedInUser()
@@ -42,9 +43,9 @@ function App() {
     console.log('end')
   }
 
-  useEffect(() => {
-    retrieve()
-  }, [account, retrieve])
+  // useEffect(() => {
+  //   retrieve()
+  // }, [account, retrieve])
 
   return (
     <div className="App">

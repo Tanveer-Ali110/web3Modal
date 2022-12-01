@@ -1,14 +1,33 @@
 import { connectorLocalStorageKey } from "config/contants";
-import {  useWeb3ModalProvider } from "hooks/useWeb3Modal";
-import { useCallback } from "react";
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import { useWeb3ModalProvider } from "hooks/useWeb3Modal";
+import { useCallback, useEffect } from "react";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { loginWallet, logoutWallet } from "./actions";
 import { AppDispatch, RootState } from "./store";
 
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
+export const useCheckLoginLogout = () => {
+  const { account, library } = useWeb3ModalProvider();
+  const dispatch = useAppDispatch();
 
-export const useAppDispatch = () => useDispatch<AppDispatch>()
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector
+  const { data, isLoggedIn } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    if (
+      account &&
+      data?.publicAddress &&
+      account.toLowerCase() !== data.publicAddress.toLowerCase()
+    ) {
+      dispatch(logoutWallet(account));
+    }
+
+    if (!isLoggedIn && account && library) {
+      dispatch(loginWallet(library, account, false));
+    }
+  }, [account, data, isLoggedIn, library, dispatch]);
+};
 
 export const useLogin = () => {
   // const { account, library } = useActiveWeb3React()
@@ -36,21 +55,20 @@ export const useLogin = () => {
 };
 
 export const useLogout = () => {
-  const dispatch = useAppDispatch()
-  const { account } = useWeb3ModalProvider()
-  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn)
+  const dispatch = useAppDispatch();
+  const { account } = useWeb3ModalProvider();
+  const isLoggedIn = useAppSelector((state) => state.user.isLoggedIn);
 
   const logout = useCallback(async () => {
     if (account) {
       // disconnect()
-      window.localStorage.removeItem(connectorLocalStorageKey)
+      window.localStorage.removeItem(connectorLocalStorageKey);
     }
-    if (isLoggedIn) await dispatch(logoutWallet(account))
-  }, [dispatch, isLoggedIn, account])
+    if (isLoggedIn) await dispatch(logoutWallet(account));
+  }, [dispatch, isLoggedIn, account]);
 
-  return logout
-}
-
+  return logout;
+};
 
 export const useLoggedInUser = () => {
   // const { account } = useActiveWeb3React()
