@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { Abi, AbiInterface } from "../Abi";
+import type { Test1, Test1Interface } from "../Test1";
 
 const _abi = [
   {
@@ -54,12 +54,12 @@ const _abi = [
   },
 ];
 
-export class Abi__factory {
+export class Test1__factory {
   static readonly abi = _abi;
-  static createInterface(): AbiInterface {
-    return new utils.Interface(_abi) as AbiInterface;
+  static createInterface(): Test1Interface {
+    return new utils.Interface(_abi) as Test1Interface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Abi {
-    return new Contract(address, _abi, signerOrProvider) as Abi;
+  static connect(address: string, signerOrProvider: Signer | Provider): Test1 {
+    return new Contract(address, _abi, signerOrProvider) as Test1;
   }
 }

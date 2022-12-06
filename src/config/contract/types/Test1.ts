@@ -23,7 +23,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface AbiInterface extends utils.Interface {
+export interface Test1Interface extends utils.Interface {
   functions: {
     "store(uint256)": FunctionFragment;
     "store1(uint256)": FunctionFragment;
@@ -51,12 +51,12 @@ export interface AbiInterface extends utils.Interface {
   events: {};
 }
 
-export interface Abi extends BaseContract {
+export interface Test1 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: AbiInterface;
+  interface: Test1Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

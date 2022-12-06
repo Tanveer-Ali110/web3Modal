@@ -1,6 +1,6 @@
-import { Abi } from "config/contract/types";
+import { Test1 } from "config/contract/types";
 import { useMemo } from "react";
-import { getStorageContract } from "utils/contractHelper";
+import { getTest1Contract } from "utils/contractHelper";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
 
 export const useSigner = () => {
@@ -13,7 +13,9 @@ export const useSigner = () => {
   return signer ?? web3NoAccount;
 };
 
-export const useStorageContract = () => {
+
+
+export const useTest1Contract = () => {
   const signer = useSigner();
-  return useMemo(() => getStorageContract(signer), [signer]) as Abi;
+  return useMemo(() => getTest1Contract(signer), [signer]) as Test1;
 };
