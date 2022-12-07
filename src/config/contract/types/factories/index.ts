@@ -2,4 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { Test__factory } from "./Test__factory";
-export { Test1__factory } from "./Test1__factory";
+export { Token__factory } from "./Token__factory";

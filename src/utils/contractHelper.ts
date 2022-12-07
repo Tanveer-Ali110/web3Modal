@@ -1,9 +1,7 @@
-import {
-  Contract,
-  ContractInterface,
-} from "@ethersproject/contracts";
+import { Contract, ContractInterface } from "@ethersproject/contracts";
 import address from "config/contract/address";
-import contractAbi from "config/contract/abi/test1.json";
+import tokenAbi from "config/contract/abi/token.json";
+import contractAbi from "config/contract/abi/test.json";
 import { Signer } from "@ethersproject/abstract-signer";
 import { Web3Provider } from "@ethersproject/providers";
 
@@ -15,13 +13,10 @@ const getContract = (
   return new Contract(address, abi, signerOrProvider);
 };
 
-export const getTestContract = (
-  signerOrProvider?: Web3Provider | Signer
-) => {
-  return getContract(address.Test1[97], contractAbi, signerOrProvider);
+export const getTokenContract = (signerOrProvider?: Web3Provider | Signer) => {
+  return getContract(address.token[97], tokenAbi, signerOrProvider);
 };
-export const getTest1Contract = (
-  signerOrProvider?: Web3Provider | Signer
-) => {
-  return getContract(address.Test1[97], contractAbi, signerOrProvider);
+
+export const getTestContract = (signerOrProvider?: Web3Provider | Signer) => {
+  return getContract(address.Test[97], contractAbi, signerOrProvider);
 };

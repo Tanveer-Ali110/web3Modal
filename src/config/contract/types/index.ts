@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Test } from "./Test";
-export type { Test1 } from "./Test1";
+export type { Token } from "./Token";
 export * as factories from "./factories";
 export { Test__factory } from "./factories/Test__factory";
-export { Test1__factory } from "./factories/Test1__factory";
+export { Token__factory } from "./factories/Token__factory";

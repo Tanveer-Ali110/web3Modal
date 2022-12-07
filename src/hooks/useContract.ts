@@ -1,11 +1,11 @@
-import { Test1 } from "config/contract/types";
+import { Test, Token } from "config/contract/types";
 import { useMemo } from "react";
-import { getTest1Contract } from "utils/contractHelper";
+import { getTestContract, getTokenContract } from "utils/contractHelper";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
 
 export const useSigner = () => {
   const { library, account, web3NoAccount, chainId } = useWeb3ModalProvider();
-  
+
   const signer = useMemo(
     () => (chainId ? library?.getSigner(account) : web3NoAccount),
     [chainId, library, account, web3NoAccount]
@@ -13,9 +13,12 @@ export const useSigner = () => {
   return signer ?? web3NoAccount;
 };
 
-
-
-export const useTest1Contract = () => {
+export const useTokenContract = () => {
   const signer = useSigner();
-  return useMemo(() => getTest1Contract(signer), [signer]) as Test1;
+  return useMemo(() => getTokenContract(signer), [signer]) as Token;
+};
+
+export const useTestContract = () => {
+  const signer = useSigner();
+  return useMemo(() => getTestContract(signer), [signer]) as Test;
 };
