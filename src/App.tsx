@@ -19,23 +19,23 @@ function App() {
 
   const handleApprove = useCallback(async () => {
 
-    const tx = await tokenContract.approve(contract.address, input)
+    const tx = await tokenContract.approve(contract.address, '5043000000000000000')
     const result = await tx.wait()
     console.log("result", result)
 
-  }, [contract.address, input, tokenContract])
+  }, [contract.address, tokenContract])
 
   const handleFunction = useCallback(async () => {
     try {
       console.log('start')
-      const tx = await contract.sendToken(to, input)
+      const tx = await contract.sendToken(to, '1043000000000000000')
       const result = await tx.wait()
       console.log("result", result)
       console.log('end')
     } catch (err) {
       console.log('err', err)
     }
-  }, [contract, input])
+  }, [contract])
 
   const handleFunction1 = useCallback(async (event: any) => {
     const tx = await contract.balanceOf(account)
@@ -52,11 +52,6 @@ function App() {
     console.log('end')
   }
 
-  // useEffect(() => {
-  //   retrieve()
-  // }, [account, retrieve])
-
-  // 1105000000000000000
   return (
     <div className="App">
       <header className="App-header">

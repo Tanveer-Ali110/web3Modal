@@ -4,6 +4,7 @@ import tokenAbi from "config/contract/abi/token.json";
 import contractAbi from "config/contract/abi/test.json";
 import { Signer } from "@ethersproject/abstract-signer";
 import { Web3Provider } from "@ethersproject/providers";
+import { Test } from "config/contract/types";
 
 const getContract = (
   address: string,
@@ -18,5 +19,5 @@ export const getTokenContract = (signerOrProvider?: Web3Provider | Signer) => {
 };
 
 export const getTestContract = (signerOrProvider?: Web3Provider | Signer) => {
-  return getContract(address.Test[97], contractAbi, signerOrProvider);
+  return getContract(address.Test[97], contractAbi, signerOrProvider) as Test
 };

@@ -10,6 +10,8 @@ export const useSigner = () => {
     () => (chainId ? library?.getSigner(account) : web3NoAccount),
     [chainId, library, account, web3NoAccount]
   );
+
+  console.log("signer", signer);
   return signer ?? web3NoAccount;
 };
 
@@ -20,5 +22,5 @@ export const useTokenContract = () => {
 
 export const useTestContract = () => {
   const signer = useSigner();
-  return useMemo(() => getTestContract(signer), [signer]) as Test;
+  return useMemo(() => getTestContract(signer), [signer]);
 };

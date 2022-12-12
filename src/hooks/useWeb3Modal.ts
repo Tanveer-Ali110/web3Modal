@@ -37,7 +37,6 @@ export const useWeb3Modal = () => {
     try {
       const supportedChainID = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
       const providers = await web3Modal.connect();
-      console.log("providers", providers);
       setProvider(providers);
       const library = new Web3Provider(providers);
       const accounts = await library.listAccounts();
