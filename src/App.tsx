@@ -4,7 +4,7 @@ import './App.css';
 import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
 import { useCheckLoginLogout, useLoggedInUser } from 'state/hooks';
-import { useTestContract, useTokenContract } from 'hooks/useContract';
+import { useTestContract, useTokenContract } from 'hooks/useContracts';
 
 function App() {
 
