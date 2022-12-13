@@ -1,9 +1,18 @@
 import { connectorLocalStorageKey } from "config/contants";
+import { TokenConfig } from "config/tokens";
+import { Contract } from "ethers";
+import useActiveChainId from "hooks/useActiveChainId";
 import { useWeb3ModalProvider } from "hooks/useWeb3Modal";
+import { isObject } from "lodash";
+import { createSelector, createStructuredSelector } from "reselect";
+import { createCachedSelector } from "re-reselect";
 import { useCallback, useEffect } from "react";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { loginWallet, logoutWallet } from "./actions";
+import { getTokenAddress } from "utils/addressHelpers";
+import Web3 from "web3";
+import { getToken, loginWallet, logoutWallet } from "./actions";
 import { AppDispatch, RootState } from "./store";
+import { TokenType } from "./types";
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
@@ -83,4 +92,49 @@ export const useLoggedInUser = () => {
     user: data,
     account,
   };
+};
+
+// Tokens
+const tokenSelector = createCachedSelector(
+  (state: RootState) => state.tokens.data,
+  (_: RootState, chainId: number) => chainId,
+  (_: RootState, __: number, address: string) => address,
+  (data, chainId, address) => (data[chainId] ?? {})[address?.toLowerCase()]
+)((_: RootState, chainId: number, address: string) => `${chainId}_${address}`);
+const tokenStructuredSelector = createStructuredSelector({
+  token: tokenSelector,
+  isLoadingToken: (state: RootState) => state.tokens.isLoading,
+});
+
+export const useToken = (
+  addressOrConfig: string | TokenConfig,
+  spender?: string | Contract,
+  type = TokenType.ERC20
+) => {
+  const address = isObject(addressOrConfig)
+    ? getTokenAddress(addressOrConfig)
+    : addressOrConfig;
+  const chainId = useActiveChainId();
+  // const { account } = useActiveWeb3React()
+  const { account } = useWeb3ModalProvider();
+  const dispatch = useAppDispatch();
+  const { token, isLoadingToken } = useAppSelector((state) =>
+    tokenStructuredSelector(state, chainId, address)
+  );
+
+  const spenderAddress = isObject(spender)
+    ? (spender as Contract).options.address
+    : spender;
+
+  useEffect(() => {
+    if (
+      account &&
+      address &&
+      Web3.utils.isAddress(address) &&
+      (!spenderAddress || Web3.utils.isAddress(spenderAddress))
+    ) {
+      dispatch(getToken(chainId, address, account, spenderAddress, type));
+    }
+  }, [dispatch, address, type, account, chainId, spenderAddress]);
+  return { token, isLoadingToken };
 };

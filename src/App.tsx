@@ -5,6 +5,9 @@ import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
 import { useCheckLoginLogout, useLoggedInUser } from 'state/hooks';
 import { useTestContract, useTokenContract } from 'hooks/useContracts';
+import { useTokenApproval } from 'hooks/useApproval';
+import tokens from 'config/tokens';
+import { toBigNumber } from 'utils/converters';
 
 function App() {
 
@@ -13,44 +16,18 @@ function App() {
   const { account } = useWeb3ModalProvider()
   const { accessToken } = useLoggedInUser()
   const contract = useTestContract()
-  const tokenContract = useTokenContract()
 
-  const to = "0x10C12CE10b423e6d650193333f0238FB84ae4FBb"
 
-  const handleApprove = useCallback(async () => {
+  console.log('account', account)
+  const { approvedAmount, token, isLoadingToken, approve, approving } = useTokenApproval(tokens.busd, contract.address)
+  console.log('approvedAmount', approvedAmount)
 
-    const tx = await tokenContract.approve(contract.address, '5043000000000000000')
-    const result = await tx.wait()
-    console.log("result", result)
-
-  }, [contract.address, tokenContract])
-
-  const handleFunction = useCallback(async () => {
-    try {
-      console.log('start')
-      const tx = await contract.sendToken(to, '1043000000000000000')
-      const result = await tx.wait()
-      console.log("result", result)
-      console.log('end')
-    } catch (err) {
-      console.log('err', err)
-    }
-  }, [contract])
-
-  const handleFunction1 = useCallback(async (event: any) => {
-    const tx = await contract.balanceOf(account)
-    // const result = await tx.wait()
-    console.log("result", tx.toString())
-    console.log('end')
-  }, [account, contract])
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const retrieve = async (event?: any) => {
-    console.log('start')
-    // const result = await contract.retrieve()
-    // console.log("result", result.toNumber())
-    console.log('end')
-  }
+  const to = "0x7E609616C25eEf123E70Fa6EAB41C0E007d73560"
+  let buttonText = approvedAmount <= toBigNumber(input) ? 'Approve' : 'send'
+  const handleSubmit = useCallback(() => {
+    if (approvedAmount <= toBigNumber(input)) approve(toBigNumber(input))
+    else contract.sendToken(to, toBigNumber(input))
+  }, [approve, approvedAmount, contract, input])
 
   return (
     <div className="App">
@@ -59,10 +36,8 @@ function App() {
         {account && accessToken && (
           <>
             <input type='number' onChange={(e) => setInput(e.target.value as unknown as number)} />
-            <button type='button' onClick={handleApprove}> Approve</button>
-            <button type='button' onClick={handleFunction}> function</button>
-            <button type='button' onClick={handleFunction1}> function1</button>
-            <button type='button' onClick={retrieve}> retrieve</button>
+            <br />
+            <button type='button' onClick={handleSubmit}> {buttonText}</button>
           </>
         )}
       </header>

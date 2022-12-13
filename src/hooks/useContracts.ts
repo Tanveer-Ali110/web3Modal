@@ -1,6 +1,8 @@
 import { Test, Token } from "config/contract/types";
+import { isEmpty } from "lodash";
 import { useMemo } from "react";
-import { getTestContract, getTokenContract } from "utils/contractHelper";
+import { TokenType } from "state/types";
+import { getERC20Contract, getTestContract, getTokenContract } from "utils/contractHelper";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
 
 export const useSigner = () => {
@@ -14,6 +16,26 @@ export const useSigner = () => {
   console.log("signer", signer);
   return signer ?? web3NoAccount;
 };
+
+export const useERCContract = (address: string, tokenType = TokenType.ERC20) => {
+  const signer = useSigner()
+  return useMemo(() => {
+    if (isEmpty(address)) return null
+    switch (tokenType) {
+      // case TokenType.ERC721:
+      //   return getERC721Contract(address, signer)
+      // case TokenType.ERC777:
+      //   return getERC777Contract(address, signer)
+      // case TokenType.ERC1155:
+      //   return getERC1155Contract(address, signer)
+      case TokenType.ERC20:
+        return getERC20Contract(address, signer)
+      default:
+        return null
+    }
+  }, [address, tokenType, signer])
+}
+
 
 export const useTokenContract = () => {
   const signer = useSigner();
