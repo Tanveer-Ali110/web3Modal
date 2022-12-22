@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import logo from './logo.svg';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
@@ -8,8 +7,6 @@ import { useTestContract, useTokenContract } from 'hooks/useContracts';
 import { useTokenApproval } from 'hooks/useApproval';
 import tokens from 'config/tokens';
 import { toBigNumber } from 'utils/converters';
-import { formatBN } from 'utils/formatters';
-import { isEmpty } from 'lodash';
 
 function App() {
 

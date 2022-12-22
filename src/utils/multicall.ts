@@ -20,7 +20,7 @@ export const nestedMulticall = async (abi: any[], nestedCalls: Call[][], flat = 
 }
 
 export const multicall = async (abi: any[], calls: Call[], flat = true): Promise<any[]> => {
-  const multi= new Contract(getMulticallAddress(),MultiCallAbi,web3NoAccount)
+  const multi = new Contract(getMulticallAddress(), MultiCallAbi, web3NoAccount)
   const itf = new Interface(abi)
 
   const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])

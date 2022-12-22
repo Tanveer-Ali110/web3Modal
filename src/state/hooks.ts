@@ -39,9 +39,7 @@ export const useCheckAuthentication = () => {
 };
 
 export const useLogin = () => {
-  // const { account, library } = useActiveWeb3React()
   const { account, library } = useWeb3ModalProvider();
-
   const dispatch = useAppDispatch();
 
   const login = useCallback(() => {

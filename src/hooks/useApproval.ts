@@ -15,7 +15,6 @@ import {
   // approveERC721,
   // approveERC777,
   // approveERC1155,
-  handleTransaction,
   handleTransactionCall,
 } from "utils/callHelpers";
 import { useERCContract } from "./useContracts";

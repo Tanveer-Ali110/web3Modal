@@ -34,10 +34,8 @@ export const fetchTokens = async (
     }
     return calls;
   });
-  console.log('nestedCalls',nestedCalls)
+
   const tokensData = await nestedMulticall(ERC20Abi, nestedCalls);
-
-
   return tokensData?.reduce(
     (result: Token[], tokenData: any[], idx: number) => {
       const token: Token = {
