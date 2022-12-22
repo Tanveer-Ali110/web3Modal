@@ -1,14 +1,12 @@
 import { Dispatch } from 'react'
 import { BigNumberish, constants, Contract, ContractTransaction, ContractReceipt } from 'ethers'
 import { isNil, isObject } from 'lodash'
-import {  Token } from 'config/contract/types'
+import {  ERC721, IERC1155, IERC777, ERC20 } from 'config/contract/types'
 // import { toastError } from 'state/toasts'
 
 export const handleTransactionCall = async (call: () => Promise<ContractTransaction>, dispatch?: Dispatch<any>) => {
   try {
-    console.log('test')
     const transaction = await call()
-    console.log('transaction', transaction)
     return handleTransaction(transaction, dispatch)
   } catch (err: any) {
     const message = err?.data?.message ?? err?.message ?? 'Check your console for more information'
@@ -31,23 +29,23 @@ export const handleReceipt = (receipt: ContractReceipt, dispatch: Dispatch<any>)
   return receipt.status > 0
 }
 
-export const approve = async (contract: Token, spender: string | Contract, amount?: BigNumberish) => {
+export const approve = async (contract: ERC20, spender: string | Contract, amount?: BigNumberish) => {
   const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
   const finalAmount = !isNil(amount) ? amount : constants.MaxUint256
   return contract.approve(spenderAddress, finalAmount)
 }
 
-// export const approveERC721 = async (contract: ERC721, spender: string | Contract) => {
-//   const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
-//   return contract.setApprovalForAll(spenderAddress, true)
-// }
+export const approveERC721 = async (contract: ERC721, spender: string | Contract) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  return contract.setApprovalForAll(spenderAddress, true)
+}
 
-// export const approveERC777 = async (contract: IERC777, spender: string | Contract) => {
-//   const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
-//   return contract.authorizeOperator(spenderAddress)
-// }
+export const approveERC777 = async (contract: IERC777, spender: string | Contract) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  return contract.authorizeOperator(spenderAddress)
+}
 
-// export const approveERC1155 = async (contract: IERC1155, spender: string | Contract) => {
-//   const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
-//   return contract.setApprovalForAll(spenderAddress, true)
-// }
+export const approveERC1155 = async (contract: IERC1155, spender: string | Contract) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  return contract.setApprovalForAll(spenderAddress, true)
+}

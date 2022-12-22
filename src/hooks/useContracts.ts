@@ -1,4 +1,4 @@
-import { Test, Token } from "config/contract/types";
+import { Test, ERC20 } from "config/contract/types";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
 import { TokenType } from "state/types";
@@ -38,7 +38,7 @@ export const useERCContract = (address: string, tokenType = TokenType.ERC20) => 
 
 export const useTokenContract = () => {
   const signer = useSigner();
-  return useMemo(() => getTokenContract(signer), [signer]) as Token;
+  return useMemo(() => getTokenContract(signer), [signer]) as ERC20;
 };
 
 export const useTestContract = () => {

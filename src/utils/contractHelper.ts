@@ -4,7 +4,7 @@ import tokenAbi from "config/contract/abi/ERC20.json";
 import contractAbi from "config/contract/abi/test.json";
 import { Signer } from "@ethersproject/abstract-signer";
 import { Web3Provider } from "@ethersproject/providers";
-import { Test, Token } from "config/contract/types";
+import { Test, ERC20 } from "config/contract/types";
 
 const getContract = (
   address: string,
@@ -22,7 +22,7 @@ export const getERC20Contract = (
   address: string,
   signerOrProvider?: Web3Provider | Signer
 ) => {
-  return getContract(address, tokenAbi, signerOrProvider) as Token;
+  return getContract(address, tokenAbi, signerOrProvider) as ERC20;
 };
 
 export const getTestContract = (signerOrProvider?: Web3Provider | Signer) => {

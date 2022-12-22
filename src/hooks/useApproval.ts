@@ -1,7 +1,6 @@
 import { BigNumber } from "@ethersproject/bignumber";
-import { ContractTransaction } from "@ethersproject/contracts";
 // import { TokenConfig } from 'config/constants/tokens'
-import { Token } from "config/contract/types";
+import { ERC20 } from "config/contract/types";
 import { TokenConfig } from "config/tokens";
 import { BigNumberish, constants } from "ethers";
 import { useCallback, useMemo, useState } from "react";
@@ -12,6 +11,9 @@ import { TokenType } from "state/types";
 import { getTokenAddress } from "utils/addressHelpers";
 import {
   approve,
+  approveERC1155,
+  approveERC721,
+  approveERC777,
   // approveERC721,
   // approveERC777,
   // approveERC1155,
@@ -37,35 +39,22 @@ const useTypedApproval = (
       if (dispatch && account && spender && tokenContract) {
         try {
           setApproving(true);
-
-          // let transaction: ContractTransaction;
-          // if (type === TokenType.ERC721)
-          //   transaction = await approveERC721(tokenContract as any, spender);
-          // else if (type === TokenType.ERC777)
-          //   transaction = await approveERC777(tokenContract as any, spender);
-          // else if (type === TokenType.ERC1155)
-          //   transaction = await approveERC1155(tokenContract as any, spender);
-          // else
-          //   transaction = await approve(
-          //     tokenContract as Token,
-          //     spender,
-          //     ammount
-          //   );
-
-          const success = await handleTransactionCall(() =>
-            approve(tokenContract as Token, spender, ammount)
-          );
-
-          // const transaction = await approve(
-          //   tokenContract as Token,
-          //   spender,
-          //   ammount
-          // );
-          // const success = await handleTransaction(transaction);
-          if (success)
-            dispatch(
-              getToken(chainId, tokenAddress, account, spender, type, true)
-            );
+          let success: boolean;
+          switch (type) {
+            case TokenType.ERC721:
+              success = await handleTransactionCall(() => approveERC721(tokenContract as any, spender));
+              break;
+            case TokenType.ERC777:
+              success = await handleTransactionCall(() => approveERC777(tokenContract as any, spender));
+              break;
+            case TokenType.ERC1155:
+              success = await handleTransactionCall(() => approveERC1155(tokenContract as any, spender));
+              break;
+            default:
+              success = await handleTransactionCall(() => approve(tokenContract as ERC20, spender, ammount));
+              break;
+          }
+          if (success) dispatch(getToken(chainId, tokenAddress, account, spender, type, true));
           return success;
         } catch (error: any) {
           // dispatch(toastError('Error approving tokens', error?.message))
@@ -81,12 +70,8 @@ const useTypedApproval = (
   return { token, isLoadingToken, approve: handleApprove, approving };
 };
 
-export const useTokenApproval = (token: TokenConfig, spender: string) => {
-  const tokenAddress = getTokenAddress(token);
-  return useApproval(tokenAddress, spender);
-};
-
-export const useApproval = (tokenAddress: string, spender: string) => {
+export const useApprovalERC20 = (tokenConfig: TokenConfig, spender: string) => {
+  const tokenAddress = getTokenAddress(tokenConfig);
   const tokenType =
     tokenAddress?.toLowerCase() !== "0x" ? TokenType.ERC20 : TokenType.ETH;
   const {

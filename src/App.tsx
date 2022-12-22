@@ -4,7 +4,7 @@ import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
 import { useCheckAuthentication, useLoggedInUser } from 'state/hooks';
 import { useTestContract, useTokenContract } from 'hooks/useContracts';
-import { useTokenApproval } from 'hooks/useApproval';
+import { useApprovalERC20 } from 'hooks/useApproval';
 import tokens from 'config/tokens';
 import { toBigNumber } from 'utils/converters';
 
@@ -16,7 +16,7 @@ function App() {
   const { accessToken } = useLoggedInUser()
   const contract = useTestContract()
 
-  const { approvedAmount, token, isLoadingToken, approve, approving } = useTokenApproval(tokens.busd, contract.address)
+  const { approvedAmount, token, isLoadingToken, approve, approving } = useApprovalERC20(tokens.busd, contract.address)
 
   const approved = approvedAmount < toBigNumber(input) || !approvedAmount.gt(0) ? true : false
 
