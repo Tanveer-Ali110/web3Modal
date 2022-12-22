@@ -3,17 +3,16 @@ import { isEmpty } from "lodash";
 import { useMemo } from "react";
 import { TokenType } from "state/types";
 import { getERC20Contract, getTestContract, getTokenContract } from "utils/contractHelper";
+import { web3NoAccount } from "utils/getRpcUrl";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
 
 export const useSigner = () => {
-  const { library, account, web3NoAccount, chainId } = useWeb3ModalProvider();
+  const { library, account, chainId } = useWeb3ModalProvider();
 
   const signer = useMemo(
     () => (chainId ? library?.getSigner(account) : web3NoAccount),
-    [chainId, library, account, web3NoAccount]
+    [chainId, library, account]
   );
-
-  console.log("signer", signer);
   return signer ?? web3NoAccount;
 };
 

@@ -17,7 +17,7 @@ import { TokenType } from "./types";
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-export const useCheckLoginLogout = () => {
+export const useCheckAuthentication = () => {
   const { account, library } = useWeb3ModalProvider();
   const dispatch = useAppDispatch();
 
@@ -135,6 +135,6 @@ export const useToken = (
     ) {
       dispatch(getToken(chainId, address, account, spenderAddress, type));
     }
-  }, [dispatch, address, type, account, chainId, spenderAddress]);
+  }, [dispatch, chainId, address, account, spenderAddress, type]);
   return { token, isLoadingToken };
 };

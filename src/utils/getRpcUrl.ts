@@ -19,11 +19,8 @@ const getNodeUrl = () => {
 
 export default getNodeUrl;
 
-export const getNode = () => {
-  const httpProvider = new Web3.providers.HttpProvider(getNodeUrl(), {
-    timeout: 10000,
-  } as HttpProviderOptions);
-  const web3NoAccount = new Web3Provider(httpProvider as any);
+const httpProvider = new Web3.providers.HttpProvider(getNodeUrl(), {
+  timeout: 10000,
+} as HttpProviderOptions);
+export const web3NoAccount = new Web3Provider(httpProvider as any);
 
-  return web3NoAccount;
-};

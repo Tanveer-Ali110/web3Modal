@@ -12,7 +12,6 @@ import {
   networkChange,
 } from "state/web3Modal";
 import { useLogout } from "state/hooks";
-import { getNode } from "utils/getRpcUrl";
 import { VenlyConnect } from "@venly/connect";
 import { switchOrAddNetwork } from "utils/ethereumRequest";
 import { first } from "lodash";
@@ -30,9 +29,6 @@ export const useWeb3Modal = () => {
     cacheProvider: true,
     providerOptions, // required
   });
-
-  console.log('web3Modal.cachedProvider',web3Modal.cachedProvider)
-
   const connect = useCallback(async () => {
     try {
       const supportedChainID = parseInt(process.env.REACT_APP_CHAIN_ID, 10);
@@ -105,10 +101,9 @@ export const useWeb3Modal = () => {
 };
 
 export const useWeb3ModalProvider = () => {
-  const web3NoAccount = getNode();
   const { provider, library, account, chainId, active } = useAppSelector(
     (state) => state.web3Modal
   );
 
-  return { provider, library, web3NoAccount, account, chainId, active };
+  return { provider, library, account, chainId, active };
 };

@@ -1,6 +1,6 @@
 import { AbiItem } from 'web3-utils'
 import { Interface } from '@ethersproject/abi'
-import { getNode } from 'utils/getRpcUrl'
+import { web3NoAccount } from 'utils/getRpcUrl'
 import MultiCallAbi from 'config/contract/abi/multicall.json'
 import { getMulticallAddress } from 'utils/addressHelpers'
 import { BytesLike, Contract } from 'ethers'
@@ -20,12 +20,11 @@ export const nestedMulticall = async (abi: any[], nestedCalls: Call[][], flat = 
 }
 
 export const multicall = async (abi: any[], calls: Call[], flat = true): Promise<any[]> => {
-  const Web3Provider = getNode()
-  const multi= new Contract(getMulticallAddress(),MultiCallAbi,Web3Provider)
+  const multi= new Contract(getMulticallAddress(),MultiCallAbi,web3NoAccount)
   const itf = new Interface(abi)
 
   const calldata = calls.map((call) => [call.address.toLowerCase(), itf.encodeFunctionData(call.name, call.params)])
-  const { returnData } = await multi.methods.aggregate(calldata).call()
+  const { returnData } = await multi.aggregate(calldata)
   const res = returnData.map((call: BytesLike, i: string | number) => itf.decodeFunctionResult(calls[i].name, call))
   return flat ? res.flat() : res
 }
