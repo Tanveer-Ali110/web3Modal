@@ -7,6 +7,8 @@ import { useTestContract, useTokenContract } from 'hooks/useContracts';
 import { useApprovalERC20 } from 'hooks/useApproval';
 import tokens from 'config/tokens';
 import { toBigNumber } from 'utils/converters';
+import { toastError } from 'utils/toaster';
+
 
 function App() {
 
@@ -24,9 +26,10 @@ function App() {
   const to = "0x7E609616C25eEf123E70Fa6EAB41C0E007d73560"
   let buttonText = approved ? 'Approve' : 'send'
   const handleSubmit = useCallback(() => {
-    if (approved) approve(toBigNumber(input))
-    else contract.sendToken(to, toBigNumber(input))
-  }, [approve, approved, contract, input])
+    toastError('Error approving tokens', "error?.message")
+    // if (approved) approve(toBigNumber(input))
+    // else contract.sendToken(to, toBigNumber(input))
+  }, [])
 
   return (
     <div className="App">

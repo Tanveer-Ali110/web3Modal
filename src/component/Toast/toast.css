@@ -1,0 +1,41 @@
+.toast-div{
+  border-radius: 12px;
+  border:1px solid grey;
+  box-shadow:0px 0px 15px grey;
+  position: relative;
+  width: 400px;
+}
+.toast-img{
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  max-width: 100%;
+  object-fit: cover;
+}
+.toast-discription{
+  font-size:15px;
+}
+.toast-name{
+  font-size: 18px;
+  font-weight: 600;
+}
+.pointer{
+  cursor: pointer;
+}
+.cross{
+  position: absolute;
+  top: 0px;
+  right: 10px;
+  font-size: 20px;
+}
+.animate-enter{
+  display: block;
+}
+.animate-leave{
+  display: none;
+}
+@media (max-width:420px){
+  .toast-div{
+    width: 100%;
+  }
+}
