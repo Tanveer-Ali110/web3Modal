@@ -3,11 +3,11 @@ import './App.css';
 import VenlyWallet from 'views/venly';
 import { useWeb3ModalProvider } from 'hooks/useWeb3Modal';
 import { useCheckAuthentication, useLoggedInUser } from 'state/hooks';
-import { useTestContract, useTokenContract } from 'hooks/useContracts';
+import { useTestContract } from 'hooks/useContracts';
 import { useApprovalERC20 } from 'hooks/useApproval';
 import tokens from 'config/tokens';
 import { toBigNumber } from 'utils/converters';
-import { toastError } from 'utils/toaster';
+import { toastError, toastSuccess } from 'utils/toaster';
 
 
 function App() {
@@ -24,12 +24,12 @@ function App() {
 
   console.log('approvedAmount', approvedAmount.gt(0))
   const to = "0x7E609616C25eEf123E70Fa6EAB41C0E007d73560"
-  let buttonText = approved ? 'Approve' : 'send'
+
+  const buttonText = approved ? 'Approve' : 'send'
   const handleSubmit = useCallback(() => {
-    toastError('Error approving tokens', "error?.message")
-    // if (approved) approve(toBigNumber(input))
-    // else contract.sendToken(to, toBigNumber(input))
-  }, [])
+    if (approved) approve(toBigNumber(input))
+    else contract.sendToken(to, toBigNumber(input))
+  }, [approve, approved, contract, input])
 
   return (
     <div className="App">

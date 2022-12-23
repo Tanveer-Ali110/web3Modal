@@ -22,10 +22,9 @@ const background: { [type in toastTypes]: string } = {
 }
 
 const Toast: React.FC<IToast> = ({ type, title, description }) => {
-    console.log('title', type, title,description)
     return (
         <>
-            {toast.custom((t: any) => (
+            {toast.custom((t) => (
                 <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} ${background[type]} toast-div `}>
                     <div className="p-2 p-sm-3">
                         <div className="d-flex">

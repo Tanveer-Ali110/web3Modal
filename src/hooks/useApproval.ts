@@ -19,6 +19,7 @@ import {
   // approveERC1155,
   handleTransactionCall,
 } from "utils/callHelpers";
+import { toastError } from "utils/toaster";
 import { useERCContract } from "./useContracts";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
 // import { useActiveWeb3React } from './web3'
@@ -57,7 +58,7 @@ const useTypedApproval = (
           if (success) dispatch(getToken(chainId, tokenAddress, account, spender, type, true));
           return success;
         } catch (error: any) {
-          // dispatch(toastError('Error approving tokens', error?.message))
+          toastError('Error approving tokens', error?.message)
         } finally {
           setApproving(false);
         }
