@@ -1,7 +1,7 @@
 
 export enum toastTypes {
     success='success',
-    error ='danger',
+    danger ='danger',
     info='info',
     warning='warning'
 

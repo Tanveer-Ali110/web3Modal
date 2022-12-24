@@ -1,27 +1,41 @@
-import { ToastContainer, Toast } from 'react-bootstrap';
+import { Toast } from "react-bootstrap";
+import toast from "react-hot-toast";
+import { IToast, toastTypes } from "./types";
 
-interface iToast1 {
-  title: string
-}
+import checkSign from "./icons/checkSign.png";
+import crossSign from "./icons/crossSign.png";
+import warnSign from "./icons/warn.png";
+import infoSign from "./icons/info.png";
 
-const Example: React.FC<iToast1> = ({ title }) => {
-  console.log('test', title)
+const image: { [type in toastTypes]: string } = {
+  [toastTypes.success]: checkSign,
+  [toastTypes.danger]: crossSign,
+  [toastTypes.info]: infoSign,
+  [toastTypes.warning]: warnSign,
+};
 
-  return (
-    <ToastContainer className="p-3" position="top-end">
-      <Toast show autohide>
-        <Toast.Header closeButton={true}>
-          {/* <img
-            src="holder.js/20x20?text=%20"
+const Example: React.FC<IToast> = ({ type, title, description }) => (
+  <>
+    {toast.custom((t) => (
+      <Toast
+        bg={type}
+        onClose={() => toast.dismiss(t.id)}
+        show={t.visible}
+        autohide
+      >
+        <Toast.Header>
+          <img
             className="rounded me-2"
+            src={image[type]}
+            style={{ height: "20px", width: "20px" }}
             alt=""
-          /> */}
-          <strong className="me-auto">Bootstrap</strong>
-          <small>11 mins ago</small>
+          />
+          <strong className="me-auto">{title}</strong>
+          {/* <small>11 mins ago</small> */}
         </Toast.Header>
-        <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
+        <Toast.Body className="text-white">{description}.</Toast.Body>
       </Toast>
-    </ToastContainer>
-  )
-}
+    ))}
+  </>
+);
 export default Example;
