@@ -28,12 +28,12 @@ const Example: React.FC<IToast> = ({ type, title, description }) => (
             className="rounded me-2"
             src={image[type]}
             style={{ height: "20px", width: "20px" }}
-            alt=""
+            alt={type}
           />
-          <strong className="me-auto">{title}</strong>
+          <strong className= {`me-auto text-${type}`}>{title}</strong>
           {/* <small>11 mins ago</small> */}
         </Toast.Header>
-        <Toast.Body className="text-white">{description}.</Toast.Body>
+        <Toast.Body className={`text-light`}>{description}.</Toast.Body>
       </Toast>
     ))}
   </>
