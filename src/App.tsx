@@ -8,6 +8,7 @@ import { useApprovalERC20 } from "hooks/useApproval";
 import tokens from "config/tokens";
 import { toBigNumber } from "utils/converters";
 import { formatBN } from "utils/formatters";
+import { toastError } from "utils/toaster";
 
 function App() {
   useCheckAuthentication();
@@ -25,12 +26,13 @@ function App() {
   );
   const buttonText = !approved ? "Approve" : "send";
   const handleSubmit = useCallback(() => {
-    approve(toBigNumber(input));
+    // approve(toBigNumber(input));
+    toastError("test","test is test")
     // else contract.sendToken(to, toBigNumber(input));
-  }, [approve, input]);
+  }, []);
 
   return (
-    <div className="App">
+    <div className="App"> 
       <header className="App-header">
         <VenlyWallet />
         {account && accessToken && (

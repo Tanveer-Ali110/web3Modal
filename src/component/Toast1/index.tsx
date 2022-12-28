@@ -22,6 +22,7 @@ const Example: React.FC<IToast> = ({ type, title, description }) => (
         onClose={() => toast.dismiss(t.id)}
         show={t.visible}
         autohide
+        style={{minHeight:"100px"}}
       >
         <Toast.Header closeVariant="white" className="bg-dark bg-gradient">
           <img
