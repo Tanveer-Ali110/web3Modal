@@ -1,28 +1,18 @@
-import { BigNumber } from "@ethersproject/bignumber";
-// import { TokenConfig } from 'config/constants/tokens'
-import { ERC20 } from "config/contract/types";
-import { TokenConfig } from "config/tokens";
-import { BigNumberish, constants } from "ethers";
 import { useCallback, useMemo, useState } from "react";
+import { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import { ERC20, ERC721, IERC1155, IERC777 } from "config/contract/types";
+import { TokenConfig } from "config/tokens";
+import { constants, Contract } from "ethers";
+import { isNil, isObject } from "lodash";
 import { getToken } from "state/actions";
 import { useToken } from "state/hooks";
 import { useAppDispatch } from "state/store";
 import { TokenType } from "state/types";
 import { getTokenAddress } from "utils/addressHelpers";
-import {
-  approve,
-  approveERC1155,
-  approveERC721,
-  approveERC777,
-  // approveERC721,
-  // approveERC777,
-  // approveERC1155,
-  handleTransactionCall,
-} from "utils/callHelpers";
+import { handleTransactionCall } from "utils/callHelpers";
 import { toastError } from "utils/toaster";
 import { useERCContract } from "./useContracts";
 import { useWeb3ModalProvider } from "./useWeb3Modal";
-// import { useActiveWeb3React } from './web3'
 
 const useTypedApproval = (
   tokenAddress: string,
@@ -145,3 +135,21 @@ export const useApproval1155 = (tokenAddress: string, spender: string) => {
   );
   return { token, isLoadingToken, approve: handleApprove, approving, approved };
 };
+
+export const approve = async (contract: ERC20, spender: string | Contract, amount?: BigNumberish) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  const finalAmount = !isNil(amount) ? amount : constants.MaxUint256
+  return contract.approve(spenderAddress, finalAmount)
+}
+export const approveERC721 = async (contract: ERC721, spender: string | Contract) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  return contract.setApprovalForAll(spenderAddress, true)
+}
+export const approveERC777 = async (contract: IERC777, spender: string | Contract) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  return contract.authorizeOperator(spenderAddress)
+}
+export const approveERC1155 = async (contract: IERC1155, spender: string | Contract) => {
+  const spenderAddress = isObject(spender) ? (spender as Contract).options.address : spender
+  return contract.setApprovalForAll(spenderAddress, true)
+}

@@ -23,7 +23,7 @@ const Example: React.FC<IToast> = ({ type, title, description }) => (
         show={t.visible}
         autohide
       >
-        <Toast.Header closeVariant="white" className="bg-dark">
+        <Toast.Header closeVariant="white" className="bg-dark bg-gradient">
           <img
             className="rounded me-2"
             src={image[type]}

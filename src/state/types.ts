@@ -33,7 +33,6 @@ export interface Token {
   accountBalance?: BigNumber;
   approvals?: { [spender: string]: BigNumber };
   approvalForAll?: { [spender: string]: boolean };
-
   ownersNfts?: Record<string, string[]>;
   // nfts?: Record<string, NFT>
 }
