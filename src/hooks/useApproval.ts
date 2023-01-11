@@ -62,6 +62,7 @@ const useTypedApproval = (
 };
 
 export const useApprovalERC20 = (tokenConfig: TokenConfig, spender: string) => {
+  console.log('changes in test2')
   const tokenAddress = getTokenAddress(tokenConfig);
   const tokenType =
     tokenAddress?.toLowerCase() !== "0x" ? TokenType.ERC20 : TokenType.ETH;
