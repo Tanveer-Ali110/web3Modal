@@ -26,13 +26,11 @@ function App() {
   );
   const buttonText = !approved ? "Approve" : "send";
   const handleSubmit = useCallback(() => {
-    // approve(toBigNumber(input));
-    toastError("test","test is test")
-    // else contract.sendToken(to, toBigNumber(input));
+    toastError("test", "test is test");
   }, []);
 
   return (
-    <div className="App"> 
+    <div className="App">
       <header className="App-header">
         <VenlyWallet />
         {account && accessToken && (
