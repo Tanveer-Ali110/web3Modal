@@ -29,6 +29,8 @@ function App() {
     toastError("test", "test is test");
   }, []);
 
+  console.log("test1");
+
   return (
     <div className="App">
       <header className="App-header">
