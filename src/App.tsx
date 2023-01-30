@@ -7,7 +7,6 @@ import { useTestContract } from "hooks/useContracts";
 import { useApprovalERC20 } from "hooks/useApproval";
 import tokens from "config/tokens";
 import { toBigNumber } from "utils/converters";
-import { formatBN } from "utils/formatters";
 import { toastError } from "utils/toaster";
 
 function App() {

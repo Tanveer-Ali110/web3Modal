@@ -19,6 +19,7 @@
     "@venly/web3-provider": "^0.33.0",
     "@walletconnect/web3-provider": "^1.8.0",
     "assert": "^2.0.0",
+    "axios": "^1.2.3",
     "crypto-browserify": "^3.12.0",
     "eth-chains": "^1.0.0",
     "ethers": "^5.7.2",
